@@ -19,69 +19,17 @@ import java.util.logging.Logger;
  * @author jefop
  */
 public class LL1 {
-    private ArrayList<Nonterminal> nonterminalTempArray;
-    private ArrayList<Nonterminal> nonterminalArray;
-    private ArrayList<String> terminalArray;
+    private ArrayList<Nonterminal> nonterminalTempArray = new ArrayList();;
+    private ArrayList<Nonterminal> nonterminalArray = new ArrayList();;
+    private ArrayList<String> terminalArray = new ArrayList();;
 
     public LL1(File file) throws IOException {
-        nonterminalTempArray = new ArrayList();
-        nonterminalArray = new ArrayList();
-        terminalArray = new ArrayList();
-        checkNonTerminalSymbols(file);
-        checkTerminalSymbols(file);
+        Utils.checkNonTerminalSymbols(file, nonterminalTempArray);
+        Utils.checkTerminalSymbols(file, nonterminalTempArray, terminalArray);
     }
     
-    public void checkNonTerminalSymbols(File file) throws IOException{
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader(file));
-            String line = reader.readLine();
-            while (line != null){
-                Nonterminal nonterminal;
-                String split[] = line.split("->");
-                if ((nonterminal = Utils.getNonTerminal(split[0], nonterminalTempArray)) == null){
-                    nonterminal = new Nonterminal(split[0]);
-                    nonterminal.addProduction(split[1]);
-                    nonterminalTempArray.add(nonterminal);
-                }else{
-                    nonterminal.addProduction(split[1]);
-                }
-                line = reader.readLine();
-            }
-            reader.close();
-            //for (Nonterminal nonterminal: nonterminalTempArray){
-            //    System.out.println(nonterminal.getSymbol());
-            //}
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(LL1.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 
-    public void checkTerminalSymbols(File file){
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader(file));
-            String line = reader.readLine();
-            while (line != null){
-                String split[] = line.split("->");
-                String split2[] = split[1].split("");
-                for (int i=0; i< split2.length; i++){
-                    Nonterminal nonterminal;
-                    if ((nonterminal = Utils.getNonTerminal(split2[i], nonterminalTempArray)) == null){
-                        terminalArray.add(split2[i]);
-                    }
-                }
-                line = reader.readLine();
-            }
-            reader.close();
-            for (String terminal: terminalArray){
-                System.out.println("TERMINAL: "+terminal);
-            }
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
-
-    }
-
+    
     
 }
