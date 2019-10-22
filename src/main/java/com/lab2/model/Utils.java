@@ -149,7 +149,9 @@ public class Utils {
             standard.addProduction(match+prime.getSymbol());
             for (String production: nonterminal.getProductions()){
                 String[] split = production.split(match);
-                if (split[0].length() == production.length()){
+                if (split.length==0){
+                    prime.addProduction("&");
+                }else if(!split[0].equals("") && split[0].length() == production.length()){
                     standard.addProduction(production);
                 }else{
                     prime.addProduction(split[1]);

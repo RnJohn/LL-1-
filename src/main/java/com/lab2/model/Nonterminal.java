@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class Nonterminal {
     private String symbol;
     private ArrayList<String> productions;
+    private ArrayList<String> first;
+    private ArrayList<String> follow;
 
     public Nonterminal(String symbol) {
         this.symbol = symbol;

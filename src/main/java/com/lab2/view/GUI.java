@@ -6,8 +6,10 @@
 package com.lab2.view;
 
 import com.lab2.model.LL1;
+import com.lab2.model.Nonterminal;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -21,6 +23,7 @@ public class GUI extends javax.swing.JFrame {
 
     File file;
     FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+    ArrayList<Nonterminal> grammar;
     LL1 LL1;
     
     /**
@@ -49,7 +52,7 @@ public class GUI extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        grammarTextArea = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -121,9 +124,10 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel2.setText("Gramática sin recursividad ni factorización a la izquierda:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        grammarTextArea.setEditable(false);
+        grammarTextArea.setColumns(20);
+        grammarTextArea.setRows(5);
+        jScrollPane1.setViewportView(grammarTextArea);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -316,11 +320,21 @@ public class GUI extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             LL1 = new LL1(file);
+            grammar = LL1.obtainGrammar();
+            writeGrammar();
         } catch (IOException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_calculateButtonActionPerformed
 
+    private void writeGrammar(){
+        for (Nonterminal nonterminal: grammar){
+            for (String production: nonterminal.getProductions()){
+                grammarTextArea.append(nonterminal.getSymbol()+"->"+production+"\n");
+            }
+        }
+    }
+    
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
         fileChooser.setFileFilter(filter);
@@ -370,6 +384,7 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton calculateButton;
     private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JTextArea grammarTextArea;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -391,7 +406,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextField jTextField1;

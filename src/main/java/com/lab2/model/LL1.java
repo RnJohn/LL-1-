@@ -37,6 +37,9 @@ public class LL1 {
     
     
 
+    public ArrayList<Nonterminal> obtainGrammar(){
+        return nonterminalArray;
+    }
     
     
 }
