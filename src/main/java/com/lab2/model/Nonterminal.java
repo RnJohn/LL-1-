@@ -36,7 +36,9 @@ public class Nonterminal {
         this.productions.add(production);
     }
     
-    
+    public void addProductions(ArrayList<String> productions){
+        this.productions.addAll(productions);
+    }
     
 }
 

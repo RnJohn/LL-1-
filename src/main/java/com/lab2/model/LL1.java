@@ -26,6 +26,13 @@ public class LL1 {
     public LL1(File file) throws IOException {
         Utils.checkNonTerminalSymbols(file, nonterminalTempArray);
         Utils.checkTerminalSymbols(file, nonterminalTempArray, terminalArray);
+        Utils.removeRecursionAndFactorization(nonterminalTempArray, nonterminalArray);
+        
+        for (Nonterminal nonterminal: nonterminalArray){
+            for (String production : nonterminal.getProductions()){
+                System.out.println(nonterminal.getSymbol()+" -> "+production);
+            }
+        }
     }
     
     
