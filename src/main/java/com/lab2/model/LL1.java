@@ -29,10 +29,20 @@ public class LL1 {
         Utils.removeRecursionAndFactorization(nonterminalTempArray, nonterminalArray);
         
         for (Nonterminal nonterminal: nonterminalArray){
+            Utils.first(nonterminal, nonterminalArray);
+        }
+        
+        for (Nonterminal nonterminal: nonterminalArray){
             for (String production : nonterminal.getProductions()){
                 System.out.println(nonterminal.getSymbol()+" -> "+production);
             }
+            System.out.println("SYMBOL: "+nonterminal.getSymbol());
+            for (String first: nonterminal.getFirst()){
+                System.out.println(first);
+            }
         }
+        
+        
     }
     
     

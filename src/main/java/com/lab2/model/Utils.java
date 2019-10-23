@@ -188,7 +188,20 @@ public class Utils {
     }
     
     
-    
+    public static void first(Nonterminal nonterminal, ArrayList<Nonterminal> nonterminalArray){
+        for (String production: nonterminal.getProductions()){
+            String firstSymbol = production.substring(0, 1);
+            Nonterminal check;
+            if ((check = Utils.getNonTerminal(firstSymbol, nonterminalArray)) == null){
+                if (!nonterminal.first.contains(firstSymbol)){
+                    nonterminal.addFirst(firstSymbol);
+                }
+            }else{
+                first(check, nonterminalArray);
+                nonterminal.addFirstArray(check.getFirst());
+            }
+        }
+    }
     
     
     public static void removeRecursionAndFactorization(ArrayList<Nonterminal> nonterminalTempArrayList, ArrayList<Nonterminal> nonterminalArray){

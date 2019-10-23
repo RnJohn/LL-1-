@@ -14,12 +14,14 @@ import java.util.ArrayList;
 public class Nonterminal {
     private String symbol;
     private ArrayList<String> productions;
-    private ArrayList<String> first;
+    public ArrayList<String> first;
     private ArrayList<String> follow;
 
     public Nonterminal(String symbol) {
         this.symbol = symbol;
         productions = new ArrayList();
+        first = new ArrayList();
+        follow = new ArrayList();
     }
 
     public String getSymbol() {
@@ -40,6 +42,27 @@ public class Nonterminal {
     
     public void addProductions(ArrayList<String> productions){
         this.productions.addAll(productions);
+    }
+    
+    public void addFirst(String first){
+        this.first.add(first);
+    }
+    
+    public void addFirstArray(ArrayList<String> firstArray){
+        for (String first: firstArray){
+            if (!this.first.contains(first)){
+                this.first.add(first);
+            }
+        }
+    }
+    
+    public ArrayList<String> getFirst(){
+        return this.first;
+    }
+            
+    
+    public void addFollow(String follow){
+        this.follow.add(follow);
     }
     
 }
