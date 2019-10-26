@@ -15,7 +15,7 @@ public class Nonterminal {
     private String symbol;
     private ArrayList<String> productions;
     public ArrayList<String> first;
-    private ArrayList<String> follow;
+    public ArrayList<String> follow;
 
     public Nonterminal(String symbol) {
         this.symbol = symbol;
@@ -45,7 +45,9 @@ public class Nonterminal {
     }
     
     public void addFirst(String first){
-        this.first.add(first);
+        if (!this.first.contains(first)){
+            this.first.add(first);
+        }  
     }
     
     public void addFirstArray(ArrayList<String> firstArray){
@@ -60,9 +62,33 @@ public class Nonterminal {
         return this.first;
     }
             
-    
     public void addFollow(String follow){
-        this.follow.add(follow);
+        if (!this.follow.contains(follow)){
+            this.follow.add(follow);
+        }
+    }
+    
+    public void addFollowArray(ArrayList<String> followArray){
+        for (String follow: followArray){
+            if(!this.follow.contains(follow) && !follow.equals("&")){
+                this.follow.add(follow);
+            }
+        }
+    }
+    
+    public ArrayList<String> getFollow(){
+        return this.follow;
+    }
+    
+    
+    public void removeFollow(String follow){
+        int index = -1;
+        for (int i = 0; i < this.follow.size(); i++) {
+            if (this.follow.get(i).equals(follow)){
+                index = i;
+            }
+        }
+        this.follow.remove(index);
     }
     
 }

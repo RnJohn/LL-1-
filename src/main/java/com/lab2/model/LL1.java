@@ -31,14 +31,22 @@ public class LL1 {
         for (Nonterminal nonterminal: nonterminalArray){
             Utils.first(nonterminal, nonterminalArray);
         }
+        Utils.follow(nonterminalArray);
         
         for (Nonterminal nonterminal: nonterminalArray){
             for (String production : nonterminal.getProductions()){
                 System.out.println(nonterminal.getSymbol()+" -> "+production);
             }
-            System.out.println("SYMBOL: "+nonterminal.getSymbol());
-            for (String first: nonterminal.getFirst()){
-                System.out.println(first);
+//            System.out.println("SYMBOL: "+nonterminal.getSymbol());
+//            for (String first: nonterminal.getFirst()){
+//                System.out.println(first);
+//            }
+        }
+//        
+        for (Nonterminal nonterminal: nonterminalArray){
+            System.out.println("NONTERMINAL ==> "+nonterminal.getSymbol());
+            for (String follow: nonterminal.getFollow()){
+                System.out.println(follow);
             }
         }
         

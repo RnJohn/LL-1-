@@ -187,7 +187,7 @@ public class Utils {
     return answer;
     }
     
-    
+
     public static void first(Nonterminal nonterminal, ArrayList<Nonterminal> nonterminalArray){
         for (String production: nonterminal.getProductions()){
             String firstSymbol = production.substring(0, 1);
@@ -203,6 +203,101 @@ public class Utils {
         }
     }
     
+    public static void follow(ArrayList<Nonterminal> nonterminalArray){
+        boolean first = true;
+        for (Nonterminal nonterminal: nonterminalArray){
+            if(first){
+                nonterminal.addFollow("$");
+                first = false;
+            }
+            followNon(nonterminal, nonterminalArray);
+        }
+        addFollowSecondIteration(nonterminalArray);
+    }
+    
+    public static void addFollowSecondIteration(ArrayList<Nonterminal> nonterminalArray){
+        boolean check = true;
+        while (check){
+            check = false;
+            for (Nonterminal nonterminal: nonterminalArray){
+                ArrayList<String> followbackup = new ArrayList();
+                for (String follow: nonterminal.getFollow()){
+                    Nonterminal check2;
+                    if ((check2 = Utils.getNonTerminal(follow, nonterminalArray))!=null){
+                        check = true;
+                        boolean check3 = false;
+                        for (String follow2: check2.getFollow()){
+                            Nonterminal checkNon;
+                            if ((checkNon = Utils.getNonTerminal(follow2, nonterminalArray))!=null){
+                                check3 = true;
+                            }
+                        }
+                        if (!check3){
+                            for (String follow3: check2.getFollow()){
+                                if(!followbackup.contains(follow3)){
+                                    followbackup.add(follow3);
+                                }
+                            }
+                        }
+                    }else{
+                        followbackup.add(follow);
+                    }
+                }
+                nonterminal.follow = new ArrayList();
+                nonterminal.addFollowArray(followbackup);
+            }
+        }
+        
+    }
+    
+    public static void followNon(Nonterminal nonterminal, ArrayList<Nonterminal> nonterminalArray){
+        for (Nonterminal non: nonterminalArray){
+            for (String str: non.getProductions()){
+                if (str.contains(nonterminal.getSymbol())){
+                    int index = str.indexOf(nonterminal.getSymbol()); //Take the index of the position where the nonterminal is in the position
+                    if (nonterminal.getSymbol().contains("'") && str.substring(index+1,index+2).equals("'")){ //If it's a prime
+                        if (index+1 == str.length()-1 && !nonterminal.getSymbol().equals(non.getSymbol())){ //If it's at the end of the production and it is not itself
+                            nonterminal.addFollow(non.getSymbol());
+                        }
+                    }else{ //If it's not a prime
+                        if (index == str.length()-1){ //If the symbol is at the end of the production
+                            if (non.getSymbol().length()==1){
+                                nonterminal.addFollow(non.getSymbol());
+                            }
+                        }else{ //If it's not at the end of the production
+                            String checkString = str.substring(index+1,index+2); //the symbol next to the evaluated
+                            if (index+2 != str.length()){
+                                if (str.substring(index+2,index+3).equals("'")){
+                                    checkString = checkString+"'";
+                                }
+                            }
+                            Nonterminal check;
+                            if ((check = Utils.getNonTerminal(checkString, nonterminalArray))==null){ //if the symbol next to the evaluated is a terminal
+                                if (!checkString.equals("'")){
+                                    nonterminal.addFollow(checkString);
+                                }
+                            }else{
+                                nonterminal.addFollowArray(check.getFirst());
+                                boolean eps = checkEpsilonProduction(check);
+                                if (eps){
+                                    nonterminal.addFollow(checkString);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    public static boolean checkEpsilonProduction(Nonterminal nonterminal){
+        for (String production: nonterminal.getProductions()){
+            if (production.equals("&")){
+                return true;
+            }
+        }
+        return false;
+    }
     
     public static void removeRecursionAndFactorization(ArrayList<Nonterminal> nonterminalTempArrayList, ArrayList<Nonterminal> nonterminalArray){
         for (Nonterminal nonterminal: nonterminalTempArrayList){
