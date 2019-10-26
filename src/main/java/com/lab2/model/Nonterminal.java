@@ -6,6 +6,7 @@
 package com.lab2.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -16,12 +17,14 @@ public class Nonterminal {
     private ArrayList<String> productions;
     public ArrayList<String> first;
     public ArrayList<String> follow;
+    public HashMap<String,String> hash;
 
     public Nonterminal(String symbol) {
         this.symbol = symbol;
         productions = new ArrayList();
         first = new ArrayList();
         follow = new ArrayList();
+        hash = new HashMap();
     }
 
     public String getSymbol() {
@@ -89,6 +92,18 @@ public class Nonterminal {
             }
         }
         this.follow.remove(index);
+    }
+    
+    public void addHash(String index, String production){
+        this.hash.put(index, production);
+    }
+    
+    public String getHash(String index){
+        return this.hash.get(index);
+    }
+    
+    public HashMap<String,String> getHashMap(){
+        return this.hash;
     }
     
 }

@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -56,14 +57,14 @@ public class GUI extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        firstTextArea = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        followTextArea = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        MTable = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
@@ -154,17 +155,17 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel3.setText("Primero");
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        firstTextArea.setEditable(false);
+        firstTextArea.setColumns(20);
+        firstTextArea.setRows(5);
+        jScrollPane2.setViewportView(firstTextArea);
 
         jLabel4.setText("Siguiente");
 
-        jTextArea3.setEditable(false);
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        followTextArea.setEditable(false);
+        followTextArea.setColumns(20);
+        followTextArea.setRows(5);
+        jScrollPane3.setViewportView(followTextArea);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -174,12 +175,12 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,28 +190,28 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
-                .addContainerGap())
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Prim & Sgte", jPanel3);
 
         jLabel5.setText("Tabla M");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        MTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane4.setViewportView(jTable1);
+        jScrollPane4.setViewportView(MTable);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -324,6 +325,10 @@ public class GUI extends javax.swing.JFrame {
             LL1 = new LL1(file);
             grammar = LL1.obtainGrammar();
             writeGrammar();
+            writeFirst();
+            writeFollow();
+            DefaultTableModel model = LL1.MTableModel();
+            MTable.setModel(model);
         } catch (IOException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -334,6 +339,27 @@ public class GUI extends javax.swing.JFrame {
             for (String production: nonterminal.getProductions()){
                 grammarTextArea.append(nonterminal.getSymbol()+"->"+production+"\n");
             }
+        }
+    }
+    
+    private void writeFirst(){
+        for (Nonterminal nonterminal: grammar){
+            firstTextArea.append("PRIMERO("+nonterminal.getSymbol()+"): {");
+            for (String first: nonterminal.getFirst()){
+                firstTextArea.append(first);
+            }
+            firstTextArea.append("}"+"\n");
+        }
+    }
+    
+    
+    private void writeFollow(){
+        for (Nonterminal nonterminal: grammar){
+            followTextArea.append("SIGUIENTE("+nonterminal.getSymbol()+"): {");
+            for (String follow: nonterminal.getFollow()){
+                followTextArea.append(follow);
+            }
+            followTextArea.append("\n");
         }
     }
     
@@ -384,8 +410,11 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable MTable;
     private javax.swing.JButton calculateButton;
     private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JTextArea firstTextArea;
+    private javax.swing.JTextArea followTextArea;
     private javax.swing.JTextArea grammarTextArea;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
@@ -406,10 +435,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JButton searchButton;

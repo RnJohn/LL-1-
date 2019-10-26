@@ -11,8 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -43,12 +45,14 @@ public class LL1 {
 //            }
         }
 //        
-        for (Nonterminal nonterminal: nonterminalArray){
-            System.out.println("NONTERMINAL ==> "+nonterminal.getSymbol());
-            for (String follow: nonterminal.getFollow()){
-                System.out.println(follow);
-            }
-        }
+//        for (Nonterminal nonterminal: nonterminalArray){
+//            System.out.println("NONTERMINAL ==> "+nonterminal.getSymbol());
+//            for (String follow: nonterminal.getFollow()){
+//                System.out.println(follow);
+//            }
+//        }
+        
+        Utils.cleanHash(nonterminalArray);
         
         
     }
@@ -57,6 +61,25 @@ public class LL1 {
 
     public ArrayList<Nonterminal> obtainGrammar(){
         return nonterminalArray;
+    }
+    
+    public DefaultTableModel MTableModel(){
+        DefaultTableModel model = new DefaultTableModel();
+        terminalArray.add("$");
+        model.addColumn("NT/T");
+        for(String terminal: terminalArray){
+            model.addColumn(terminal);
+        }
+        model.setRowCount(nonterminalArray.size());
+        int index = 0;
+        for (Nonterminal non: nonterminalArray){
+            model.setValueAt(non.getSymbol(),index,0);
+            for(Map.Entry<String,String> map: non.getHashMap().entrySet()){
+                model.setValueAt(non.getSymbol()+"->"+map.getValue(),index,terminalArray.indexOf(map.getKey())+1);
+            }
+            index++;
+        }
+        return model;
     }
     
     

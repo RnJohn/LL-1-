@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -195,13 +197,72 @@ public class Utils {
             if ((check = Utils.getNonTerminal(firstSymbol, nonterminalArray)) == null){
                 if (!nonterminal.first.contains(firstSymbol)){
                     nonterminal.addFirst(firstSymbol);
+                    if(firstSymbol.equals("&")){
+                        nonterminal.addHash(nonterminal.getSymbol(),production);
+                    }else{
+                        nonterminal.addHash(firstSymbol, production);
+                    }
+                    
                 }
             }else{
                 first(check, nonterminalArray);
                 nonterminal.addFirstArray(check.getFirst());
+                if (firstSymbol.equals("&")){
+                    nonterminal.addHash(nonterminal.getSymbol(), "&");
+                }else if (checkEpsilonFirst(check)){
+                    nonterminal.addHash(firstSymbol, "&");
+                }else{
+                
+                    for (String first: check.getFirst()){
+                        nonterminal.addHash(first,production);
+                    }
+                
+                    
+                }
+                
             }
         }
     }
+    
+    
+    public static void firstIter(ArrayList<Nonterminal> nonterminalArray){
+        
+    }
+    
+    
+    
+    
+    public static void cleanHash(ArrayList<Nonterminal> nonterminalArray){
+        for (Nonterminal non: nonterminalArray){
+            HashMap<String,String> copy = new HashMap();
+            Utils.copyHashValues(non.getHashMap(), copy);
+            for (Map.Entry<String,String> entry: non.getHashMap().entrySet()){
+                //System.out.println("NONTERMINAL -> "+non.getSymbol()+" TERMINAL -> "+entry.getKey()+" PRODUCTION -> "+entry.getValue());
+                Nonterminal check;
+                if ((check = Utils.getNonTerminal(entry.getKey(), nonterminalArray))!=null){
+                    ArrayList<String> checkFollow = check.getFollow();
+                    for (String follow: checkFollow){
+                        copy.put(follow, "&");
+                    }
+                    copy.remove(entry.getKey(), "&");
+                }
+            }
+            non.hash = new HashMap();
+            non.hash = copy;
+        }
+        for (Nonterminal non: nonterminalArray){
+            for (Map.Entry<String,String> entry: non.getHashMap().entrySet()){
+                System.out.println("NONTERMINAL -> "+non.getSymbol()+" TERMINAL -> "+entry.getKey()+" PRODUCTION -> "+entry.getValue());
+            }
+        }
+    }
+    
+    public static void copyHashValues(HashMap<String,String> hash1, HashMap<String,String> hash2){
+        for (Map.Entry<String,String> map : hash1.entrySet()){
+            hash2.put(map.getKey(), map.getValue());
+        }
+    }
+    
     
     public static void follow(ArrayList<Nonterminal> nonterminalArray){
         boolean first = true;
@@ -293,6 +354,15 @@ public class Utils {
     public static boolean checkEpsilonProduction(Nonterminal nonterminal){
         for (String production: nonterminal.getProductions()){
             if (production.equals("&")){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean checkEpsilonFirst(Nonterminal nonterminal){
+        for (String first: nonterminal.getFirst()){
+            if (first.equals("&")){
                 return true;
             }
         }
