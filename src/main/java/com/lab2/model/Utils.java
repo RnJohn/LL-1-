@@ -225,13 +225,6 @@ public class Utils {
     }
     
     
-    public static void firstIter(ArrayList<Nonterminal> nonterminalArray){
-        
-    }
-    
-    
-    
-    
     public static void cleanHash(ArrayList<Nonterminal> nonterminalArray){
         for (Nonterminal non: nonterminalArray){
             HashMap<String,String> copy = new HashMap();

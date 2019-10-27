@@ -47,9 +47,7 @@ public class GUI extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
-        calculateButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -67,27 +65,21 @@ public class GUI extends javax.swing.JFrame {
         MTable = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        recognizeTextField = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        recognizeTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Ingrese el archivo con las producciones:");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setText("Analizador Sintáctico Descendente");
 
-        searchButton.setText("Buscar");
+        searchButton.setText("Buscar Gramática");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchButtonActionPerformed(evt);
-            }
-        });
-
-        calculateButton.setText("Calcular");
-        calculateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                calculateButtonActionPerformed(evt);
             }
         });
 
@@ -96,29 +88,23 @@ public class GUI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchButton))
-                    .addComponent(calculateButton))
-                .addContainerGap(333, Short.MAX_VALUE))
+                        .addGap(128, 128, 128)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(245, 245, 245)
+                        .addComponent(searchButton)))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(150, 150, 150)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(calculateButton)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(searchButton)
+                .addContainerGap(201, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Entrada", jPanel1);
@@ -128,6 +114,7 @@ public class GUI extends javax.swing.JFrame {
         grammarTextArea.setEditable(false);
         grammarTextArea.setColumns(20);
         grammarTextArea.setRows(5);
+        grammarTextArea.setOpaque(false);
         jScrollPane1.setViewportView(grammarTextArea);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -139,7 +126,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,13 +138,14 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Gramática", jPanel2);
+        jTabbedPane1.addTab("Gramática sin Vicios", jPanel2);
 
         jLabel3.setText("Primero");
 
         firstTextArea.setEditable(false);
         firstTextArea.setColumns(20);
         firstTextArea.setRows(5);
+        firstTextArea.setOpaque(false);
         jScrollPane2.setViewportView(firstTextArea);
 
         jLabel4.setText("Siguiente");
@@ -165,6 +153,7 @@ public class GUI extends javax.swing.JFrame {
         followTextArea.setEditable(false);
         followTextArea.setColumns(20);
         followTextArea.setRows(5);
+        followTextArea.setOpaque(false);
         jScrollPane3.setViewportView(followTextArea);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -222,7 +211,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,18 +228,20 @@ public class GUI extends javax.swing.JFrame {
         jLabel6.setText("Ingrese la cadena a reconocer:");
 
         jButton3.setText("Calcular");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Tabla de seguimiento de reconocimiento de cadena: ");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        recognizeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Pila", "Entrada", "Acción"
+                "Pila", "Entrada", "Salida"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -261,11 +252,11 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
+        jScrollPane5.setViewportView(recognizeTable);
+        if (recognizeTable.getColumnModel().getColumnCount() > 0) {
+            recognizeTable.getColumnModel().getColumn(0).setResizable(false);
+            recognizeTable.getColumnModel().getColumn(1).setResizable(false);
+            recognizeTable.getColumnModel().getColumn(2).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -275,12 +266,12 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(recognizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3))
                             .addComponent(jLabel7))
@@ -294,7 +285,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(recognizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
@@ -319,22 +310,9 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void calculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateButtonActionPerformed
-        try {
-            // TODO add your handling code here:
-            LL1 = new LL1(file);
-            grammar = LL1.obtainGrammar();
-            writeGrammar();
-            writeFirst();
-            writeFollow();
-            DefaultTableModel model = LL1.MTableModel();
-            MTable.setModel(model);
-        } catch (IOException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_calculateButtonActionPerformed
-
     private void writeGrammar(){
+        grammarTextArea.setText("");
+        grammarTextArea.setOpaque(true);
         for (Nonterminal nonterminal: grammar){
             for (String production: nonterminal.getProductions()){
                 grammarTextArea.append(nonterminal.getSymbol()+"->"+production+"\n");
@@ -343,6 +321,8 @@ public class GUI extends javax.swing.JFrame {
     }
     
     private void writeFirst(){
+        firstTextArea.setText("");
+        firstTextArea.setOpaque(true);
         for (Nonterminal nonterminal: grammar){
             firstTextArea.append("PRIMERO("+nonterminal.getSymbol()+"): {");
             for (String first: nonterminal.getFirst()){
@@ -354,6 +334,8 @@ public class GUI extends javax.swing.JFrame {
     
     
     private void writeFollow(){
+        followTextArea.setText("");
+        followTextArea.setOpaque(true);
         for (Nonterminal nonterminal: grammar){
             followTextArea.append("SIGUIENTE("+nonterminal.getSymbol()+"): {");
             for (String follow: nonterminal.getFollow()){
@@ -369,10 +351,35 @@ public class GUI extends javax.swing.JFrame {
         int approve = this.fileChooser.showOpenDialog(this);
         if (approve == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
+            
+            try {
+            // TODO add your handling code here:
+            LL1 = new LL1(file);
+            grammar = LL1.obtainGrammar();
+            writeGrammar();
+            writeFirst();
+            writeFollow();
+            DefaultTableModel model = LL1.MTableModel();
+            MTable.setModel(model);
+        } catch (IOException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            
         } else {
             System.out.println("File access cancelled by user.");
         }
+        
+        
+        
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = LL1.recognize(recognizeTextField.getText());
+        recognizeTable.setModel(model);
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -411,7 +418,6 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable MTable;
-    private javax.swing.JButton calculateButton;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JTextArea firstTextArea;
     private javax.swing.JTextArea followTextArea;
@@ -435,9 +441,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable recognizeTable;
+    private javax.swing.JTextField recognizeTextField;
     private javax.swing.JButton searchButton;
     // End of variables declaration//GEN-END:variables
 }
