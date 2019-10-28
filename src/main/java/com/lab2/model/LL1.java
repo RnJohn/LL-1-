@@ -64,22 +64,33 @@ public class LL1 {
         model.addColumn("Pila");
         model.addColumn("Entrada");
         model.addColumn("Salida");
-        int index = 0;
         String stack = "$"+nonterminalArray.get(0).getSymbol();
         String entry = s+"$";
         boolean accept = true;
+        String firstEntry = entry.substring(0,1);
+        String production = nonterminalArray.get(0).getHash(firstEntry);
         while (accept){
-            String firstEntry = entry.substring(0,1);
+            firstEntry = entry.substring(0,1);
             String check = stack.substring(stack.length()-1,stack.length());
             if (check.equals("'")){
                 check = stack.substring(stack.length()-2,stack.length()-1)+check;
             }
             Nonterminal checkNon;
             if ((checkNon = Utils.getNonTerminal(check, nonterminalArray))!=null){ //if the rightmost symbol in the stack is a nonterminal
-                String production = checkNon.getHash(firstEntry);
+                production = checkNon.getHash(firstEntry);
+                if (accept){
+                    if(production == null){
+                        model.addRow(new Object[] {stack,entry,"No reconoce"});
+                    }else{
+                        model.addRow(new Object[] {stack,entry,check+"->"+production});
+                    }
+                    
+                }else{
+                    model.addRow(new Object[] {stack,entry,"No reconoce"});
+                }
+                
                 if (production == null){
                     accept = false;
-                    model.addRow(new Object[] {"","","No reconoce"});
                 }else{
                     if(check.length()==1){
                         stack = stack.substring(0,stack.length()-1);
@@ -90,26 +101,26 @@ public class LL1 {
                         stack = transfer(stack,production);
                     }
                 }
-                if (accept){
-                    model.addRow(new Object[] {stack,entry,production});
+
+            }else{ //If the rightmost symbol in the stack is a terminal
+                
+                if(accept){
+                    model.addRow(new Object[] {stack,entry});
                 }else{
                     model.addRow(new Object[] {stack,entry,"No reconoce"});
                 }
-            }else{ //If the rightmost symbol in the stack is a terminal
+                
+                
                 if (firstEntry.equals(check)){
                     entry = entry.substring(1,entry.length());
                     stack = stack.substring(0,stack.length()-1);
                 }else{
                     accept = false;
                 }
-                if(accept){
-                    model.addRow(new Object[] {stack,entry});
-                }else{
-                    model.addRow(new Object[] {stack,entry,"No reconoce"});
-                }
+                
             }
             if (stack.equals("$") && entry.equals("$")){
-                model.addRow(new Object[] {"","","Acepta"});
+                model.addRow(new Object[] {"$","$","Acepta"});
                 accept = false;
             }
         }

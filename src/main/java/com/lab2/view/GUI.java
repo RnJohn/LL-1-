@@ -325,8 +325,13 @@ public class GUI extends javax.swing.JFrame {
         firstTextArea.setOpaque(true);
         for (Nonterminal nonterminal: grammar){
             firstTextArea.append("PRIMERO("+nonterminal.getSymbol()+"): {");
+            int index = 0;
             for (String first: nonterminal.getFirst()){
                 firstTextArea.append(first);
+                if(index!=nonterminal.getFirst().size()-1){
+                    firstTextArea.append(",");
+                }
+                index++;
             }
             firstTextArea.append("}"+"\n");
         }
@@ -338,8 +343,13 @@ public class GUI extends javax.swing.JFrame {
         followTextArea.setOpaque(true);
         for (Nonterminal nonterminal: grammar){
             followTextArea.append("SIGUIENTE("+nonterminal.getSymbol()+"): {");
+            int index = 0;
             for (String follow: nonterminal.getFollow()){
                 followTextArea.append(follow);
+                if (index!=nonterminal.getFollow().size()-1){
+                    followTextArea.append(",");
+                }
+                index++;
             }
             followTextArea.append("\n");
         }

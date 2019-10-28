@@ -15,7 +15,7 @@ public class Test {
     HashMap<String,String> hash = new HashMap();
     
     public static void test(){
-        hash.
+        //hash.
     
     }
 }
