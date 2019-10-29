@@ -5,15 +5,10 @@
  */
 package com.lab2.model;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -80,13 +75,13 @@ public class LL1 {
                 production = checkNon.getHash(firstEntry);
                 if (accept){
                     if(production == null){
-                        model.addRow(new Object[] {stack,entry,"No reconoce"});
+                        model.addRow(new Object[] {stack,entry,"Error"});
                     }else{
                         model.addRow(new Object[] {stack,entry,check+"->"+production});
                     }
                     
                 }else{
-                    model.addRow(new Object[] {stack,entry,"No reconoce"});
+                    model.addRow(new Object[] {stack,entry,"Error"});
                 }
                 
                 if (production == null){
@@ -107,7 +102,7 @@ public class LL1 {
                 if(accept){
                     model.addRow(new Object[] {stack,entry});
                 }else{
-                    model.addRow(new Object[] {stack,entry,"No reconoce"});
+                    model.addRow(new Object[] {stack,entry,"Error"});
                 }
                 
                 

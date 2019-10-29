@@ -212,12 +212,9 @@ public class Utils {
                 }else if (checkEpsilonFirst(check)){
                     nonterminal.addHash(firstSymbol, "&");
                 }else{
-                
                     for (String first: check.getFirst()){
                         nonterminal.addHash(first,production);
                     }
-                
-                    
                 }
                 
             }
@@ -230,7 +227,6 @@ public class Utils {
             HashMap<String,String> copy = new HashMap();
             Utils.copyHashValues(non.getHashMap(), copy);
             for (Map.Entry<String,String> entry: non.getHashMap().entrySet()){
-                //System.out.println("NONTERMINAL -> "+non.getSymbol()+" TERMINAL -> "+entry.getKey()+" PRODUCTION -> "+entry.getValue());
                 Nonterminal check;
                 if ((check = Utils.getNonTerminal(entry.getKey(), nonterminalArray))!=null){
                     ArrayList<String> checkFollow = check.getFollow();
@@ -267,6 +263,7 @@ public class Utils {
             followNon(nonterminal, nonterminalArray);
         }
         addFollowSecondIteration(nonterminalArray);
+        
     }
     
     public static void addFollowSecondIteration(ArrayList<Nonterminal> nonterminalArray){
@@ -275,33 +272,31 @@ public class Utils {
             check = false;
             for (Nonterminal nonterminal: nonterminalArray){
                 ArrayList<String> followbackup = new ArrayList();
+                boolean terminalCheck = true;
                 for (String follow: nonterminal.getFollow()){
                     Nonterminal check2;
                     if ((check2 = Utils.getNonTerminal(follow, nonterminalArray))!=null){
                         check = true;
-                        boolean check3 = false;
+                        Nonterminal check3;
                         for (String follow2: check2.getFollow()){
-                            Nonterminal checkNon;
-                            if ((checkNon = Utils.getNonTerminal(follow2, nonterminalArray))!=null){
-                                check3 = true;
-                            }
-                        }
-                        if (!check3){
-                            for (String follow3: check2.getFollow()){
-                                if(!followbackup.contains(follow3)){
-                                    followbackup.add(follow3);
-                                }
+                            if((check3 = Utils.getNonTerminal(follow2, nonterminalArray))!=null){
+                                terminalCheck = false;
+                            }else{
+                                followbackup.add(follow2);
                             }
                         }
                     }else{
                         followbackup.add(follow);
                     }
                 }
-                nonterminal.follow = new ArrayList();
-                nonterminal.addFollowArray(followbackup);
+                if(terminalCheck){
+                    nonterminal.follow = new ArrayList();
+                    nonterminal.addFollowArray(followbackup);
+                
+                }
+
             }
         }
-        
     }
     
     public static void followNon(Nonterminal nonterminal, ArrayList<Nonterminal> nonterminalArray){

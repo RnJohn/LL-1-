@@ -351,7 +351,7 @@ public class GUI extends javax.swing.JFrame {
                 }
                 index++;
             }
-            followTextArea.append("\n");
+            followTextArea.append("}"+"\n");
         }
     }
     
