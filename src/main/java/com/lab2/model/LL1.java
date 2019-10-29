@@ -36,6 +36,7 @@ public class LL1 {
         return nonterminalArray;
     }
     
+    
     public DefaultTableModel MTableModel(){
         DefaultTableModel model = new DefaultTableModel();
         terminalArray.add("$");
