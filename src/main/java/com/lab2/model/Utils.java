@@ -222,6 +222,26 @@ public class Utils {
     }
     
     
+    public static void firstIter(ArrayList<Nonterminal> nonterminalArray){
+        for (Nonterminal non: nonterminalArray){
+            boolean check = false;
+            for (String str: non.getProductions()){
+                String split[] = str.split("");
+                for (int i = 0; i < split.length; i++) {
+                    Nonterminal checkNon;
+                    if ((checkNon = Utils.getNonTerminal(split[i], nonterminalArray))!=null){
+                        if (Utils.checkEpsilonProduction(checkNon)){
+                            non.addFirstArray(checkNon.first);
+                        }else{
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
     public static void cleanHash(ArrayList<Nonterminal> nonterminalArray){
         for (Nonterminal non: nonterminalArray){
             HashMap<String,String> copy = new HashMap();

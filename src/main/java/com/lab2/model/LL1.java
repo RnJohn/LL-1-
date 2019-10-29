@@ -27,6 +27,7 @@ public class LL1 {
         for (Nonterminal nonterminal: nonterminalArray){
             Utils.first(nonterminal, nonterminalArray);
         }
+        Utils.firstIter(nonterminalArray);
         Utils.follow(nonterminalArray);
         Utils.cleanHash(nonterminalArray);
     }
