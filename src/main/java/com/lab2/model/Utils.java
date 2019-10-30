@@ -192,7 +192,8 @@ public class Utils {
 
     public static void first(Nonterminal nonterminal, ArrayList<Nonterminal> nonterminalArray){
         for (String production: nonterminal.getProductions()){
-            String firstSymbol = production.substring(0, 1);
+            int index = 0;
+            String firstSymbol = production.substring(index, index+1);
             Nonterminal check;
             if ((check = Utils.getNonTerminal(firstSymbol, nonterminalArray)) == null){
                 if (!nonterminal.first.contains(firstSymbol)){
@@ -205,18 +206,32 @@ public class Utils {
                     
                 }
             }else{
+                ArrayList<String> firstArray = new ArrayList();
                 first(check, nonterminalArray);
-                nonterminal.addFirstArray(check.getFirst());
-                if (firstSymbol.equals("&")){
-                    nonterminal.addHash(nonterminal.getSymbol(), "&");
-                }else if (checkEpsilonFirst(check)){
-                    nonterminal.addHash(firstSymbol, "&");
-                }else{
-                    for (String first: check.getFirst()){
-                        nonterminal.addHash(first,production);
+                firstArray.addAll(check.getFirst());
+                while (checkEpsilonProduction(check) && index < production.length()){
+                    if (index+1 < production.length()){
+                        
+                        if((check = getNonTerminal(production.substring(index+1,index+2),nonterminalArray))==null){
+                            firstArray.add(production.substring(index,index+1));
+                            break;
+                        }else{
+                            first(check,nonterminalArray);
+                            firstArray.addAll(check.getFirst());
+                            if (!checkEpsilonProduction(check)){
+                                firstArray.remove("&");
+                            }
+                        }
                     }
+                    index++;
                 }
                 
+                nonterminal.addFirstArray(firstArray);
+                    for (String first: firstArray){
+                        if(!first.equals("&")){
+                            nonterminal.addHash(first,production);
+                        }
+                    }
             }
         }
     }
@@ -233,6 +248,8 @@ public class Utils {
                         if (Utils.checkEpsilonProduction(checkNon)){
                             non.addFirstArray(checkNon.first);
                         }else{
+                            non.addFirstArray(checkNon.first);
+                            non.first.remove("&");
                             break;
                         }
                     }
@@ -240,6 +257,37 @@ public class Utils {
             }
         }
     }
+    
+    
+    public static void anotherFirst(ArrayList<Nonterminal> nonterminalArray){
+        for (Nonterminal non: nonterminalArray){
+            for (String st: non.getProductions()){
+                non.addFirst(st.substring(0,1));
+            }
+        }
+        
+        for (Nonterminal non: nonterminalArray){
+            boolean checkNonterminal = true;
+            while (checkNonterminal){
+                checkNonterminal = false;
+                for (String first: non.getFirst()){
+                    Nonterminal check;
+                    if ((check = Utils.getNonTerminal(first, nonterminalArray))!=null){
+                        checkNonterminal = true;
+                        boolean terminalFound = false;
+                        String production = first;
+                        while (terminalFound == false){
+                            
+                        }
+                    }
+                    
+                }
+            
+            
+            }
+        }
+    }
+    
     
     
     public static void cleanHash(ArrayList<Nonterminal> nonterminalArray){
@@ -330,7 +378,7 @@ public class Utils {
                         }
                     }else{ //If it's not a prime
                         if (index == str.length()-1){ //If the symbol is at the end of the production
-                            if (non.getSymbol().length()==1){
+                            if (non.getSymbol().length()==1 && !str.substring(str.length()-1,str.length()).equals(non.getSymbol())){
                                 nonterminal.addFollow(non.getSymbol());
                             }
                         }else{ //If it's not at the end of the production

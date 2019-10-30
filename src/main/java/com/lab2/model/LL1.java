@@ -23,11 +23,12 @@ public class LL1 {
     public LL1(File file) throws IOException {
         Utils.checkNonTerminalSymbols(file, nonterminalTempArray);
         Utils.checkTerminalSymbols(file, nonterminalTempArray, terminalArray);
+        terminalArray.remove("&");
         Utils.removeRecursionAndFactorization(nonterminalTempArray, nonterminalArray);   
         for (Nonterminal nonterminal: nonterminalArray){
             Utils.first(nonterminal, nonterminalArray);
         }
-        Utils.firstIter(nonterminalArray);
+        //Utils.firstIter(nonterminalArray);
         Utils.follow(nonterminalArray);
         Utils.cleanHash(nonterminalArray);
     }
@@ -101,7 +102,7 @@ public class LL1 {
 
             }else{ //If the rightmost symbol in the stack is a terminal
                 
-                if(accept){
+                if(accept && firstEntry.equals(check)){
                     model.addRow(new Object[] {stack,entry});
                 }else{
                     model.addRow(new Object[] {stack,entry,"Error"});
@@ -117,7 +118,7 @@ public class LL1 {
                 
             }
             if (stack.equals("$") && entry.equals("$")){
-                model.addRow(new Object[] {"$","$","Acepta"});
+                model.addRow(new Object[] {"$","$","Aceptar"});
                 accept = false;
             }
         }
